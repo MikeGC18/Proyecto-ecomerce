@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "../config/connexio.php";
 
 $id = $_POST["id"];
 $cantidad = $_POST["cantidad"];

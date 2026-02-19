@@ -1,8 +1,16 @@
 <?php
 session_start();
-include "productos.php";
-
+include "config/connexio.php";
+ 
 $subtotal = 0;
+
+// Comprobar si la tabla `games` está accesible
+try {
+    $pdo->query('SELECT 1 FROM games LIMIT 1');
+    $db_ok = true;
+} catch (Exception $e) {
+    $db_ok = false;
+}
 ?>
 
 <h1>Carret de Compra</h1>
@@ -20,7 +28,24 @@ $subtotal = 0;
 <?php
 if(!empty($_SESSION["carrito"])) {
     foreach($_SESSION["carrito"] as $id => $cantidad) {
-        $producto = $productos[$id];
+        
+        if ($db_ok) {
+            try {
+                $stmt = $pdo->prepare('SELECT id, title AS nombre, price AS precio FROM games WHERE id = ?');
+                $stmt->execute([(int)$id]);
+                $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($fila) {
+                    $producto = ['nombre' => $fila['nombre'], 'precio' => $fila['precio']];
+                } else {
+                    $producto = ['nombre' => 'Producto no disponible en BD', 'precio' => 0];
+                }
+            } catch (Exception $e) {
+                $producto = ['nombre' => 'Error BD', 'precio' => 0];
+            }
+        } else {
+            $producto = ['nombre' => 'BD no disponible', 'precio' => 0];
+        }
+
         $total = $producto["precio"] * $cantidad;
         $subtotal += $total;
 ?>
