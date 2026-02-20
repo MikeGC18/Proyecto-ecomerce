@@ -2,7 +2,8 @@
 session_start();
 include "config/connexio.php";
 
-// Obtener todas las plataformas para el menú
+$cartCount = !empty($_SESSION['carrito']) ? array_sum($_SESSION['carrito']) : 0;
+
 $platforms = [];
 try {
     $stmtPlat = $pdo->prepare("SELECT DISTINCT p.id, p.name FROM platforms p INNER JOIN games g ON p.id = g.platform_id ORDER BY p.name");
@@ -12,14 +13,12 @@ try {
     $platforms = [];
 }
 
-// Obtener juegos (con filtro de plataforma si viene en GET)
 $selectedPlatform = isset($_GET['platform']) ? (int)$_GET['platform'] : null;
 try {
     $stmt = $pdo->prepare("SELECT g.id, g.title, g.price, g.description, g.stock, p.name AS platform, gen.name AS genre FROM games g LEFT JOIN platforms p ON g.platform_id = p.id LEFT JOIN genres gen ON g.genre_id = gen.id ORDER BY g.title");
     $stmt->execute();
     $games = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Filtrar por plataforma si está seleccionada
     if ($selectedPlatform !== null) {
         $games = array_filter($games, function($game) use ($selectedPlatform) {
             foreach ($GLOBALS['platforms'] as $plat) {
@@ -41,23 +40,27 @@ try {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Botiga Online</title>
-    <link rel="stylesheet" href="estilos/estilos.css">
+    <title>A&M Games</title>
+    <link rel="stylesheet" href="estilaje/estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 
 <header>
-    <h1>La Meva Botiga</h1>
+    <h1>A&M Games</h1>
     <nav>
         <a href="index.php">Inici</a>
         <?php if(!empty($platforms)): ?>
-            <span>Plataformes:</span>
-            
             <?php foreach($platforms as $plat): ?>
                 <a href="index.php?platform=<?= (int)$plat['id'] ?>"><?= htmlspecialchars($plat['name']) ?></a>
             <?php endforeach; ?>
         <?php endif; ?>
-        <a href="carrito.php">Carret</a>
+        <a href="carrito.php" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <?php if($cartCount > 0): ?>
+                <span class="cart-count"><?= $cartCount ?></span>
+            <?php endif; ?>
+        </a>
     </nav>
 </header>
 

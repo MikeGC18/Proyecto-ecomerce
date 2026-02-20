@@ -1,8 +1,8 @@
 <?php
 session_start();
-include "../config/connexio.php";
+include "/config/connexio.php";
 
-$id = $_POST["id"]; // ahora es POST
+$id = $_POST["id"]; 
 
 if (!isset($_SESSION["carrito"])) {
     $_SESSION["carrito"] = [];
