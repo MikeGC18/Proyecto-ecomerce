@@ -96,6 +96,13 @@ h2 {
     box-shadow: 0 18px 35px rgba(0, 0, 0, 0.25);
 }
 
+.card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
 .card h3 {
     font-size: 1.3rem;
     color: #34495e;
@@ -138,6 +145,35 @@ h2 {
 .card button:hover {
     background-color: #1c5980;
     transform: scale(1.05);
+}
+
+/* detalle de juego */
+.game-main-image img {
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin: 0 auto 20px auto;
+    border-radius: 10px;
+}
+
+.game-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.game-gallery .thumb {
+    width: 100px;
+    height: auto;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.game-gallery .thumb:hover {
+    transform: scale(1.08);
 }
 
 .card::before {

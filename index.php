@@ -15,7 +15,14 @@ try {
 
 $selectedPlatform = isset($_GET['platform']) ? (int)$_GET['platform'] : null;
 try {
-    $stmt = $pdo->prepare("SELECT g.id, g.title, g.price, g.description, g.stock, p.name AS platform, gen.name AS genre FROM games g LEFT JOIN platforms p ON g.platform_id = p.id LEFT JOIN genres gen ON g.genre_id = gen.id ORDER BY g.title");
+    $stmt = $pdo->prepare("
+    SELECT g.id, g.title, g.slug, g.price, g.description, g.stock,
+           p.name AS platform, gen.name AS genre
+    FROM games g
+    LEFT JOIN platforms p ON g.platform_id = p.id
+    LEFT JOIN genres gen ON g.genre_id = gen.id
+    ORDER BY g.title
+");
     $stmt->execute();
     $games = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -72,8 +79,25 @@ try {
     <?php if(!empty($dbError)): ?><p style="color:darkred;">Error de base de datos detectado: revisa que la tabla `games` exista.</p><?php endif; ?>
 <?php else: ?>
     <?php foreach($games as $game): ?>
+    <?php
+        // obtener imagen principal
+        $imgStmt = $pdo->prepare("SELECT url, alt FROM game_images WHERE game_id = ? AND is_main = 1 LIMIT 1");
+        $imgStmt->execute([$game['id']]);
+        $img = $imgStmt->fetch(PDO::FETCH_ASSOC);
+        // ensure path is relative to project (remove leading slash)
+        if ($img && !empty($img['url'])) {
+            $imgUrl = ltrim($img['url'], '/');
+        } else {
+            $imgUrl = 'imatges/default.jpg';
+        }
+        $imgAlt = $img ? $img['alt'] : $game['title'];
+    ?>
+
     <div class="card">
-        <h3><?= htmlspecialchars($game['title']) ?></h3>
+        <a href="game.php?slug=<?= urlencode($game['slug']) ?>" style="text-decoration:none;color:inherit;">
+            <img src="<?= htmlspecialchars($imgUrl) ?>" alt="<?= htmlspecialchars($imgAlt) ?>">
+            <h3><?= htmlspecialchars($game['title']) ?></h3>
+        </a>
         <?php if(!empty($game['genre'])): ?><p><strong>Gènere:</strong> <?= htmlspecialchars($game['genre']) ?></p><?php endif; ?>
         <?php if(!empty($game['platform'])): ?><p><strong>Plataforma:</strong> <?= htmlspecialchars($game['platform']) ?></p><?php endif; ?>
         <p><?= number_format($game['price'],2) ?> €</p>
