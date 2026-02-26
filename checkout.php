@@ -3,8 +3,6 @@ session_start();
 require 'lib/stripe-php-master/init.php';
 include 'config/connexio.php';
 
-// \Stripe\Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
-
 // Calcular total del carrito
 $subtotal = 0;
 
