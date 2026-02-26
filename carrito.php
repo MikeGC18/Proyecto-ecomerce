@@ -43,7 +43,7 @@ function formatPrice($price) {
                         $stmt->execute([(int)$id]);
                         $fila = $stmt->fetch(PDO::FETCH_ASSOC);
                         if ($fila) {
-                            $producto = ['nombre' => $fila['nombre'], 'precio' => $fila['precio']];
+                            $producto = ['nombre' => $fila['nombre'], 'precio' => (float)$fila['precio']];
                         } else {
                             $producto = ['nombre' => 'Producto no disponible en BD', 'precio' => 0];
                         }
@@ -54,7 +54,7 @@ function formatPrice($price) {
                     $producto = ['nombre' => 'BD no disponible', 'precio' => 0];
                 }
 
-                $total = $producto["precio"] * $cantidad;
+                $total = round($producto["precio"] * $cantidad, 2);
                 $subtotal += $total;
         ?>
         <div class="card">
@@ -78,13 +78,22 @@ function formatPrice($price) {
     </div>
 
     <?php
-    $iva = $subtotal * 0.21;
-    $totalFinal = $subtotal + $iva;
+    $subtotal = round($subtotal, 2);
+    $iva = round($subtotal * 0.21, 2);
+    $totalFinal = round($subtotal + $iva, 2);
+
+    // Amount para Stripe en céntimos
+    $amountStripe = (int) round($totalFinal * 100);
     ?>
+
     <div class="totals">
         <h3>Subtotal: <?= formatPrice($subtotal) ?></h3>
         <h3>IVA (21%): <?= formatPrice($iva) ?></h3>
         <h2>Total Final: <?= formatPrice($totalFinal) ?></h2>
+    </div>
+
+    <div class="payment-box">
+        <a href="checkout.php?amount=<?= $amountStripe ?>" class="btn-pagar">Pagar con Stripe</a>
     </div>
 </div>
 
