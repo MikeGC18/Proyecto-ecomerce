@@ -1,5 +1,5 @@
 <?php
-require "config/connexio.php"; // usamos tu conexión existente
+require "config/connexio.php"; 
 
 try {
 
@@ -181,7 +181,7 @@ INSERT INTO `games` (`title`,`slug`,`genre_id`,`platform_id`,`developer_id`,`pub
 ('Arena Legends','arena-legends',1,1,1,2,39.99,'2022-07-18','MOBA/arena competitivo con personajes únicos y e-sports support.',35),
 ('Island Adventure','island-adventure',2,6,2,3,34.99,'2020-12-05','Aventura cooperativa en isla tropical con misiones y minijuegos.',12);
 
--- Asignar tags a juegos (corregido: tag_id 8 existe ahora)
+-- Asignar tags a juegos 
 INSERT INTO `game_tags` (`game_id`,`tag_id`) VALUES
 (1,1),(1,6),
 (2,3),(2,4),
@@ -229,7 +229,7 @@ SQL;
 
     $pdo->exec($sql);
 
-    echo "✅ Base de datos creada correctamente bro 😎🔥";
+    echo "Base de datos creada correctamente";
 
 } catch (PDOException $e) {
     echo "❌ Error: " . $e->getMessage();

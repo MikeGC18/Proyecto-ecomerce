@@ -1,42 +1,39 @@
 <?php
-session_start();
-require 'config/connexio.php';
+include "config/connexio.php";
 
 $slug = $_GET['slug'] ?? '';
-
-$gameStmt = $pdo->prepare("SELECT g.*, p.name AS platform, gen.name AS genre
-                          FROM games g
-                          LEFT JOIN platforms p ON g.platform_id = p.id
-                          LEFT JOIN genres gen ON g.genre_id = gen.id
-                          WHERE g.slug = ?");
-$gameStmt->execute([$slug]);
-$game = $gameStmt->fetch(PDO::FETCH_ASSOC);
+$stmt = $pdo->prepare("SELECT * FROM games WHERE slug = ?");
+$stmt->execute([$slug]);
+$game = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$game) {
-    echo "<p>Juego no encontrado.</p>";
-    exit;
+    die("Juego no encontrado");
 }
 
-
-$imgsStmt = $pdo->prepare("SELECT url, alt, is_main FROM game_images WHERE game_id = ? ORDER BY is_main DESC, id ASC");
-$imgsStmt->execute([$game['id']]);
-$images = $imgsStmt->fetchAll(PDO::FETCH_ASSOC);
+$imgStmt = $pdo->prepare("SELECT * FROM game_images WHERE game_id = ?");
+$imgStmt->execute([$game['id']]);
+$images = $imgStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= htmlspecialchars($game['title']) ?> - A&M Games</title>
-    <link rel="stylesheet" href="estilaje/estilos.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title><?= htmlspecialchars($game['title']) ?></title>
+    <link rel="stylesheet" href="estilaje/game.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
 <header>
-    <h1><a href="index.php" style="text-decoration:none;color:inherit;">A&M Games</a></h1>
+    <h1><a href="index.php">A&M Games</a></h1>
 </header>
 
-<div class="container" style="max-width:800px;margin:40px auto;">
+<div class="container">
+
+    <a href="index.php" class="back-link">← Volver a la tienda</a>
+
     <h2><?= htmlspecialchars($game['title']) ?></h2>
+
     <?php if ($images): ?>
         <?php
             $main = null;
@@ -49,10 +46,14 @@ $images = $imgsStmt->fetchAll(PDO::FETCH_ASSOC);
             <?php $mainUrl = ltrim($main['url'], '/'); ?>
             <img src="<?= htmlspecialchars($mainUrl) ?>" alt="<?= htmlspecialchars($main['alt']) ?>">
         </div>
+
         <?php if (count($images) > 1): ?>
             <div class="game-gallery">
                 <?php foreach ($images as $i): ?>
-                    <img src="<?= htmlspecialchars($i['url']) ?>" alt="<?= htmlspecialchars($i['alt']) ?>" class="thumb" onclick="document.querySelector('.game-main-image img').src='<?= htmlspecialchars($i['url']) ?>';">
+                    <img src="<?= htmlspecialchars($i['url']) ?>"
+                         alt="<?= htmlspecialchars($i['alt']) ?>"
+                         class="thumb"
+                         onclick="document.querySelector('.game-main-image img').src='<?= htmlspecialchars($i['url']) ?>';">
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
@@ -67,6 +68,7 @@ $images = $imgsStmt->fetchAll(PDO::FETCH_ASSOC);
         <input type="hidden" name="id" value="<?= (int)$game['id'] ?>">
         <button type="submit">Añadir al carrito</button>
     </form>
+
 </div>
 
 </body>

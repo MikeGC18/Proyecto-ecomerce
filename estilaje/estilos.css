@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
-
 * {
     margin: 0;
     padding: 0;
@@ -7,213 +5,173 @@
 }
 
 body {
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(to right, #e0eafc, #cfdef3);
-    color: #222;
-    line-height: 1.6;
+    font-family: 'Orbitron', sans-serif;
+    background: radial-gradient(circle at top, #1a0033, #000);
+    color: white;
+    min-height: 100vh;
 }
 
 header {
-    background-color: #ffffffcc;
-    padding: 20px 0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    background: linear-gradient(90deg, #ff00cc, #3333ff);
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 0 25px #ff00cc;
 }
 
 header h1 {
-    font-size: 2.2rem;
-    color: #2c3e50;
-    text-align: center;
-    margin-bottom: 12px;
-    letter-spacing: 2px;
+    font-size: 42px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px #fff, 0 0 20px #ff00cc;
 }
 
-header nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
+nav {
+    margin-top: 15px;
 }
 
-header nav a {
-    color: #34495e;
+nav a {
+    color: white;
     text-decoration: none;
-    font-weight: 600;
-    padding: 8px 14px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+    margin: 0 12px;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-header nav a:hover {
-    background-color: #2980b9;
-    color: #fff;
-    transform: scale(1.05);
+nav a:hover {
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
 }
 
-header nav span {
-    font-weight: 700;
-    margin-right: 5px;
-    color: #2980b9;
+.cart-icon {
+    position: relative;
+}
+
+.cart-count {
+    background: #ff00cc;
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 12px;
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    box-shadow: 0 0 10px #ff00cc;
 }
 
 h2 {
     text-align: center;
-    color: #2c3e50;
-    margin: 30px 0 20px 0;
-    font-size: 2rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    margin: 40px 0 20px 0;
+    font-size: 28px;
+    text-shadow: 0 0 10px #00ffff;
 }
 
 .grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 25px;
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto 50px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 20px 60px 60px 60px;
 }
 
 .card {
-    background-color: #ffffff;
-    border-radius: 16px;
-    width: 270px;
-    display: flex;
-    flex-direction: column;
-    padding: 18px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    background: rgba(20, 0, 40, 0.8);
+    border: 2px solid #ff00cc;
+    border-radius: 15px;
+    padding: 20px;
+    transition: 0.4s;
+    box-shadow: 0 0 20px #ff00cc44;
 }
 
 .card:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.25);
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 0 35px #00ffff;
+    border-color: #00ffff;
 }
 
 .card img {
     width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 0 15px #000;
 }
 
 .card h3 {
-    font-size: 1.3rem;
-    color: #34495e;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
 }
 
 .card p {
-    font-size: 0.95rem;
-    color: #555;
-    margin-bottom: 6px;
+    font-size: 14px;
+    margin-bottom: 8px;
 }
 
-.card strong {
-    color: #2980b9;
+.card p:nth-of-type(1) {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffcc00;
+    text-shadow: 0 0 10px #ffcc00;
 }
 
-.card p:first-of-type {
-    color: #e74c3c;
-    font-weight: 700;
-    font-size: 1.1rem;
-}
-
-.card form {
-    margin-top: auto;
-    
-}
-
-.card button {
+button {
     width: 100%;
-    padding: 10px 14px;
-    background-color: #2980b9;
-    color: #fff;
+    padding: 10px;
     border: none;
     border-radius: 8px;
-    font-weight: 600;
+    background: linear-gradient(90deg, #ff00cc, #00ffff);
+    color: black;
+    font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: 0.3s;
+    margin-top: 10px;
 }
 
-.card button:hover {
-    background-color: #1c5980;
+button:hover {
+    background: linear-gradient(90deg, #00ffff, #ff00cc);
+    box-shadow: 0 0 20px #00ffff;
     transform: scale(1.05);
-}
-
-/* detalle de juego */
-.game-main-image img {
-    width: 100%;
-    max-width: 600px;
-    display: block;
-    margin: 0 auto 20px auto;
-    border-radius: 10px;
-}
-
-.game-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.game-gallery .thumb {
-    width: 100px;
-    height: auto;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.game-gallery .thumb:hover {
-    transform: scale(1.08);
-}
-
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.08) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 1;
-    pointer-events: none;
-}
-
-.card:hover::before {
-    opacity: 1;
-}
-.no-games {
-    text-align: center;
-    color: #e74c3c;
-    font-size: 1.2rem;
-    margin-top: 50px;
-}
-
-@media (max-width: 1024px) {
-    .grid {
-        justify-content: center;
-    }
 }
 
 @media (max-width: 768px) {
     .grid {
-        flex-direction: column;
-        align-items: center;
+        padding: 20px;
     }
 
-    header nav {
-        flex-direction: column;
-        gap: 10px;
+    header h1 {
+        font-size: 30px;
     }
+}
+
+.hero-slider {
+    width: 100%;
+    margin: 0;
+}
+
+.slider-container {
+    position: relative;
+    height: 320px;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slide-bg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center 25%;
+    transform: scale(1.05);
+    transition: transform 6s ease;
+}
+
+.slide.active .slide-bg {
+    transform: scale(1);
 }
